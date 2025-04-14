@@ -301,7 +301,7 @@ export class AttackExecution implements Execution {
       this.toConquer.enqueue(
         new TileContainer(
           neighbor,
-          dist / 100 + this.random.nextInt(0, 2) - numOwnedByMe + mag,
+          dist / 100 + 1.5 * Math.random() - numOwnedByMe + mag,
           this.mg.ticks(),
         ),
       );
