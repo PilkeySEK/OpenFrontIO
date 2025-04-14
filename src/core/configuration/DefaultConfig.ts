@@ -336,7 +336,7 @@ export class DefaultConfig implements Config {
             p.type() == PlayerType.Human && this.infiniteGold()
               ? 0
               : Math.min(
-                  2_000_000,
+                  1_000_000,
                   Math.pow(
                     2,
                     p.unitsIncludingConstruction(UnitType.City).length,
@@ -388,7 +388,7 @@ export class DefaultConfig implements Config {
     return 3;
   }
   numSpawnPhaseTurns(): number {
-    return this._gameConfig.gameType == GameType.Singleplayer ? 50 : 300;
+    return this._gameConfig.gameType == GameType.Singleplayer ? 100 : 300;
   }
   numBots(): number {
     return this.bots();
@@ -559,7 +559,7 @@ export class DefaultConfig implements Config {
     const maxPop =
       player.type() == PlayerType.Human && this.infiniteTroops()
         ? 1_000_000_000
-        : 1 * (Math.pow(player.numTilesOwned(), 0.7) * 1000 + 50000) +
+        : 2 * (Math.pow(player.numTilesOwned(), 0.6) * 1000 + 50000) +
           player.units(UnitType.City).length * this.cityPopulationIncrease();
 
     if (player.type() == PlayerType.Bot) {
@@ -615,7 +615,8 @@ export class DefaultConfig implements Config {
   }
 
   goldAdditionRate(player: Player): number {
-    return Math.sqrt(player.workers() * player.numTilesOwned()) / 200;
+    const ratio = Math.pow(player.workers() / player.population(), 1.3);
+    return Math.floor(Math.sqrt(player.workers()) * ratio * 5);
   }
 
   troopAdjustmentRate(player: Player): number {
